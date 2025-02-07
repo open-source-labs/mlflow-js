@@ -3,8 +3,8 @@ import ExperimentClient from '../src/tracking/ExperimentClient';
 import { ApiError } from '../src/utils/apiError';
 import {
   createTestExperiment,
-  experimentProperties,
   deleteTestExperiments,
+  experimentProperties,
   ExpSearchResults,
   TRACKING_SERVER_URI,
 } from './testUtils';

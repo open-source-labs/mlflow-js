@@ -8,7 +8,18 @@ export const experimentProperties: string[] = [
   'artifact_location',
   'lifecycle_stage',
   'last_update_time',
-  'creation_time'
+  'creation_time',
+];
+export const runProperties: string[] = [
+  'run_id',
+  'run_uuid',
+  'run_name',
+  'experiment_id',
+  'user_id',
+  'status',
+  'start_time',
+  'artifact_uri',
+  'lifecycle_stage',
 ];
 export type ExpSearchResults = {
   experiments?: Experiment[];
@@ -17,7 +28,9 @@ export type ExpSearchResults = {
 
 const experimentClient = new ExperimentClient(TRACKING_SERVER_URI);
 
-export const createTestExperiment = async (prefix = 'Test experiment'): Promise<string> => {
+export const createTestExperiment = async (
+  prefix = 'Test experiment'
+): Promise<string> => {
   const timestamp = Date.now();
   return await experimentClient.createExperiment(`${prefix} ${timestamp}`);
 };
