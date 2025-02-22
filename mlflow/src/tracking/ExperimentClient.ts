@@ -180,8 +180,6 @@ class ExperimentClient {
         response.status
       );
     };
-
-    console.log(`Experiment ID ${experiment_id} successfully deleted`);
   }
 
   /**
@@ -212,8 +210,6 @@ class ExperimentClient {
         response.status
       );
     }
-
-    console.log(`Experiment ID ${experiment_id} successfully restored`);
   }
 
   /**
@@ -246,10 +242,6 @@ class ExperimentClient {
         response.status
       );
     }
-
-    console.log(
-      `Experiment ID ${experiment_id} successfully updated - new name is ${new_name}`
-    );
   }
 
   /**
@@ -284,8 +276,6 @@ class ExperimentClient {
         response.status
       );
     }
-
-    console.log(`Set tag to experiment ID ${experiment_id} successfully`);
   }
 }
 

@@ -2,6 +2,12 @@ import { describe, test, expect, beforeAll, afterAll } from '@jest/globals';
 import { ApiError } from '../src/utils/apiError';
 import ExperimentClient from '../src/tracking/ExperimentClient';
 import ExperimentManager from '../src/workflows/ExperimentManager';
+import {
+  createTestExperiment,
+  deleteTestExperiments,
+  runProperties,
+  TRACKING_SERVER_URI,
+} from './testUtils';
 
 describe('ExperimentManager', () => {
   let experimentClient: ExperimentClient;
@@ -45,17 +51,14 @@ describe('ExperimentManager', () => {
   beforeAll(async () => {
     // Add a small delay to ensure MLflow is fully ready
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    experimentClient = new ExperimentClient('http://127.0.0.1:5002');
-    experimentManager = new ExperimentManager('http://127.0.0.1:5002');
+    experimentClient = new ExperimentClient(TRACKING_SERVER_URI);
+    experimentManager = new ExperimentManager(TRACKING_SERVER_URI);
   });
 
   describe('runExistingExperiment', () => {
     test('should run an existing experiment and return the run object', async () => {
-      const num = Math.random().toString().slice(2, 11);
-      const name = `Test experiment ${num}`;
-      const exp = await experimentClient.createExperiment(name);
+      const exp: string = await createTestExperiment();
       testIds.push(exp);
-
       const run = await experimentManager.runExistingExperiment(
         exp,
         undefined,
@@ -64,24 +67,14 @@ describe('ExperimentManager', () => {
         tags,
         model
       );
-
-      expect(run).toHaveProperty('run_id');
-      expect(run).toHaveProperty('run_uuid');
-      expect(run).toHaveProperty('run_name');
-      expect(run).toHaveProperty('experiment_id');
-      expect(run).toHaveProperty('user_id');
-      expect(run).toHaveProperty('status');
-      expect(run).toHaveProperty('start_time');
-      expect(run).toHaveProperty('artifact_uri');
-      expect(run).toHaveProperty('lifecycle_stage');
+      for (const property of runProperties) {
+        expect(run).toHaveProperty(property);
+      }
     });
 
     test('should throw error if an invalid experiment ID is passed in', async () => {
-      const num = Math.random().toString().slice(2, 11);
-      const name = `Test experiment ${num}`;
-      const exp = await experimentClient.createExperiment(name);
+      const exp: string = await createTestExperiment();
       testIds.push(exp);
-
       await expect(
         experimentManager.runExistingExperiment(
           'invalidExperimentId',
@@ -97,8 +90,7 @@ describe('ExperimentManager', () => {
 
   describe('runNewExperiment', () => {
     test('should run a new experiment and return the run object', async () => {
-      const num = Math.random().toString().slice(2, 11);
-      const name = `Test experiment ${num}`;
+      const name: string = `Test experiment ${Date.now()}`;
       const run: {
         experiment_id?: string;
       } = await experimentManager.runNewExperiment(
@@ -112,22 +104,14 @@ describe('ExperimentManager', () => {
       if (run.experiment_id) {
         testIds.push(run.experiment_id);
       }
-
-      expect(run).toHaveProperty('run_id');
-      expect(run).toHaveProperty('run_uuid');
-      expect(run).toHaveProperty('run_name');
-      expect(run).toHaveProperty('experiment_id');
-      expect(run).toHaveProperty('user_id');
-      expect(run).toHaveProperty('status');
-      expect(run).toHaveProperty('start_time');
-      expect(run).toHaveProperty('artifact_uri');
-      expect(run).toHaveProperty('lifecycle_stage');
+      for (const property of runProperties) {
+        expect(run).toHaveProperty(property);
+      }
     });
 
     test('should throw error if an invalid experiment name is passed in', async () => {
-      const num = Math.random().toString().slice(2, 11);
-      const name = `Test experiment ${num}`;
-      const exp = await experimentClient.createExperiment(name);
+      const name: string = `Test experiment ${Date.now()}`;
+      const exp: string = await experimentClient.createExperiment(name);
       testIds.push(exp);
       await expect(
         experimentManager.runNewExperiment(
@@ -144,9 +128,7 @@ describe('ExperimentManager', () => {
 
   describe('experimentSummary', () => {
     test("should return an array of all the passed-in experiment's runs, sorted according to the passed-in metric", async () => {
-      const num = Math.random().toString().slice(2, 11);
-      const name = `Test experiment ${num}`;
-      const exp = await experimentClient.createExperiment(name);
+      const exp: string = await createTestExperiment();
       testIds.push(exp);
       for (const metric of metricsAll) {
         await experimentManager.runExistingExperiment(
@@ -176,12 +158,5 @@ describe('ExperimentManager', () => {
     });
   });
 
-  afterAll(async () => {
-    while (testIds.length > 0) {
-      const id = testIds.pop();
-      if (id) {
-        await experimentClient.deleteExperiment(id);
-      }
-    }
-  });
+  afterAll(async () => await deleteTestExperiments(testIds));
 });
