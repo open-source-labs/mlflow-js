@@ -3,6 +3,7 @@ import RunManager from '../src/workflows/RunManager';
 import RunClient from '../src/tracking/RunClient';
 import ExperimentClient from '../src/tracking/ExperimentClient';
 import { Run, CleanupRuns, CopyRun } from '../src/utils/interface';
+import { TRACKING_SERVER_URI, TEST_DATA } from './testUtils';
 
 describe('RunManager', () => {
   let runManager: RunManager;
@@ -14,9 +15,9 @@ describe('RunManager', () => {
 
   beforeEach(async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    runClient = new RunClient('http://127.0.0.1:5002');
-    experimentClient = new ExperimentClient('http://127.0.0.1:5002');
-    runManager = new RunManager('http://127.0.0.1:5002');
+    runClient = new RunClient(TRACKING_SERVER_URI);
+    experimentClient = new ExperimentClient(TRACKING_SERVER_URI);
+    runManager = new RunManager(TRACKING_SERVER_URI);
   });
 
   afterAll(async () => {
@@ -169,21 +170,9 @@ describe('RunManager', () => {
 
       const model_json = JSON.stringify(model);
 
-      await runClient.logBatch(
-        originalRunId,
-        [
-          { key: 'metric-key1', value: 10, timestamp: 1694000700000 },
-          { key: 'metric-key2', value: 20, timestamp: 1694000700000 },
-        ],
-        [
-          { key: 'param-key1', value: 'param-value1' },
-          { key: 'param-key2', value: 'param-value2' },
-        ],
-        [
-          { key: 'tag-key1', value: 'tag-value1' },
-          { key: 'tag-key2', value: 'tag-value2' },
-        ]
-      );
+      const { metrics, params, tags } = TEST_DATA;
+
+      await runClient.logBatch(originalRunId, metrics, params, tags);
 
       await runClient.logInputs(originalRunId, datasets);
       await runClient.logModel(originalRunId, model_json);
@@ -196,6 +185,8 @@ describe('RunManager', () => {
     });
 
     test('- Should copy run from one experiment to another', async () => {
+      const { metrics } = TEST_DATA;
+
       const result = (await runManager.copyRun(
         originalRunId,
         targetExperimentId
@@ -208,25 +199,15 @@ describe('RunManager', () => {
       // fetch copied run and check the metrics
       const copiedRun = (await runClient.getRun(result.newRunId)) as Run;
 
+      const metricMatchers = metrics.map((metric) =>
+        expect.objectContaining({
+          key: metric.key,
+          value: metric.value,
+        })
+      );
+
       expect(copiedRun.data.metrics).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ key: 'metric-key1', value: 10 }),
-          expect.objectContaining({ key: 'metric-key2', value: 20 }),
-        ])
-      );
-
-      expect(copiedRun.data.params).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ key: 'param-key1', value: 'param-value1' }),
-          expect.objectContaining({ key: 'param-key2', value: 'param-value2' }),
-        ])
-      );
-
-      expect(copiedRun.data.tags).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ key: 'tag-key1', value: 'tag-value1' }),
-          expect.objectContaining({ key: 'tag-key2', value: 'tag-value2' }),
-        ])
+        expect.arrayContaining(metricMatchers)
       );
     });
   });
