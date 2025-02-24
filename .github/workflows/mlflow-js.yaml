@@ -3,9 +3,7 @@ on:
   pull_request:
     branches:
       - main
-  push:
-    branches:
-      - stephany/jest
+      - dev
 
 jobs:
   build-and-test:
