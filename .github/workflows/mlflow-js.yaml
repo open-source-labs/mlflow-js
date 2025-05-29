@@ -4,6 +4,9 @@ on:
     branches:
       - main
       - dev
+  push:
+    branches:
+      - ci-flow
 
 jobs:
   build-and-test:
@@ -28,6 +31,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+        # will i get a denied error because image on GHCR now requires authentication?
       - name: Run MLflow server
         run: |
           docker run -d -p 5002:5002 --name mlflow-container ghcr.io/mlflow/mlflow:latest mlflow server --host 0.0.0.0 --port 5002
