@@ -49,15 +49,19 @@
 
 ### Set Up MLflow
 
-Ensure MLflow is installed on your system. To avoid common installation issues and keep dependencies isolated, create and activate a Python virtual environment as follows:
+Ensure MLflow is installed on your system:
+
+```bash
+pip install mlflow
+```
+
+For MacOS users, we recommend creating and activating a Python virtual environment to avoid common installation issues and keep dependencies isolated:
 
 ```bash
 python3 -m venv mlflow-venv
 source mlflow-venv/bin/activate
 pip install mlflow
 ```
-
-**Note:** MLflow is compatible with MacOS. If you encounter issues with the default system Python, consider installing Python 3 via the Homebrew package manger using `brew install python`. In this case, installing MLflow is now `pip3 install mlflow`.
 
 Remember to activate your virtual environment (`source mlflow-venv/bin/activate`) each time you open a new terminal before running MLflow commands.
 
