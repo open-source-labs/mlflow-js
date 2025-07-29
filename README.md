@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](/LICENSE)
 ![Release](https://img.shields.io/badge/Release-v1.0.1-426B20)
 ![Build](https://img.shields.io/badge/Build-Passing-brightgreen.svg)
-![Coverage](https://img.shields.io/badge/Coverage-87%25-c7ea46.svg)
+![Coverage](https://img.shields.io/badge/Coverage-89%25-c7ea46.svg)
 [![Contributions](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](/CONTRIBUTING.md)
 
 <i>MLflow.js</i> is an open-source JavaScript library that helps developers track machine learning experiments and manage models with MLflow, providing functionalities for machine learning lifecycle in JavaScript/TypeScript environments.
@@ -49,17 +49,21 @@
 
 ### Set Up MLflow
 
-Ensure MLflow is installed on your system:
+Ensure MLflow is installed on your system. To avoid common installation issues and keep dependencies isolated, create and activate a Python virtual environment as follows:
 
 ```bash
+python3 -m venv mlflow-venv
+source mlflow-venv/bin/activate
 pip install mlflow
 ```
 
 **Note:** MLflow is compatible with MacOS. If you encounter issues with the default system Python, consider installing Python 3 via the Homebrew package manger using `brew install python`. In this case, installing MLflow is now `pip3 install mlflow`.
 
+Remember to activate your virtual environment (`source mlflow-venv/bin/activate`) each time you open a new terminal before running MLflow commands.
+
 ### Start the MLflow Tracking Server
 
-To start the MLflow tracking server locally, use the following command:
+After activating the virtual environment, start the MLflow tracking server locally, use the following command:
 
 ```bash
 mlflow ui --port 5001
