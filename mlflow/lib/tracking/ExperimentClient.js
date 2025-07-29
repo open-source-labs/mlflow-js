@@ -99,7 +99,6 @@ class ExperimentClient {
             throw new ApiError(`Error deleting experiment from tracking server: ${data.message || response.statusText}`, response.status);
         }
         ;
-        console.log(`Experiment ID ${experiment_id} successfully deleted`);
     }
     /**
      * Restore an experiment marked for deletion.
@@ -116,7 +115,6 @@ class ExperimentClient {
         if (!response.ok) {
             throw new ApiError(`Error restoring experiment from tracking server: ${data.message || response.statusText}`, response.status);
         }
-        console.log(`Experiment ID ${experiment_id} successfully restored`);
     }
     /**
      * Update experiment name.
@@ -134,7 +132,6 @@ class ExperimentClient {
         if (!response.ok) {
             throw new ApiError(`Error updating experiment from tracking server: ${data.message || response.statusText}`, response.status);
         }
-        console.log(`Experiment ID ${experiment_id} successfully updated - new name is ${new_name}`);
     }
     /**
      * Set a tag on an experiment.
@@ -153,7 +150,6 @@ class ExperimentClient {
         if (!response.ok) {
             throw new ApiError(`Error setting tag from tracking server: ${data.message || response.statusText}`, response.status);
         }
-        console.log(`Set tag to experiment ID ${experiment_id} successfully`);
     }
 }
 export default ExperimentClient;

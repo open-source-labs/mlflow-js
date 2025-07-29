@@ -425,7 +425,10 @@ class RunClient {
       );
     }
 
-    return data;
+    return {
+      metrics: data.metrics || [],
+      next_page_token: data.next_page_token,
+    };
   }
 
   /**

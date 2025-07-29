@@ -50,13 +50,20 @@ describe('ModelVersionClient', () => {
           modelVersionRunLink,
           modelVersionDescription
         );
+
       expect(createdModelVersion.name).toBe(modelName);
       expect(createdModelVersion.source).toBe(run.info.artifact_uri);
       expect(createdModelVersion.run_id).toBe(run.info.run_id);
-      expect(createdModelVersion.tags).toEqual([
-        { key: 'test-tag', value: 'test-value' },
-        { key: 'test-tag2', value: 'test-value2' },
-      ]);
+
+      // ensure tags contain specified items regardless of order
+      expect(createdModelVersion.tags).toEqual(
+        expect.arrayContaining([
+          { key: 'test-tag', value: 'test-value' },
+          { key: 'test-tag2', value: 'test-value2' },
+        ])
+      );
+      expect(createdModelVersion.tags.length).toBe(2);
+
       expect(createdModelVersion.run_link).toBe(modelVersionRunLink);
       expect(createdModelVersion.description).toBe(modelVersionDescription);
     });
