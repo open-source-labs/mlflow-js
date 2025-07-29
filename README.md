@@ -8,10 +8,12 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](/LICENSE)
 ![Release](https://img.shields.io/badge/Release-v1.0.1-426B20)
 ![Build](https://img.shields.io/badge/Build-Passing-brightgreen.svg)
-![Coverage](https://img.shields.io/badge/Coverage-87%25-c7ea46.svg)
+![Coverage](https://img.shields.io/badge/Coverage-89%25-c7ea46.svg)
 [![Contributions](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg)](/CONTRIBUTING.md)
 
 <i>MLflow.js</i> is an open-source JavaScript library that helps developers track machine learning experiments and manage models with MLflow, providing functionalities for machine learning lifecycle in JavaScript/TypeScript environments.
+
+**Note:** <i>MLflow.js</i> is a community-maintained project and is **not** affiliated with or endorsed by Databricks or the official MLflow maintainers.
 
 <br>
 
@@ -53,11 +55,19 @@ Ensure MLflow is installed on your system:
 pip install mlflow
 ```
 
-**Note:** MLflow is compatible with MacOS. If you encounter issues with the default system Python, consider installing Python 3 via the Homebrew package manger using `brew install python`. In this case, installing MLflow is now `pip3 install mlflow`.
+For MacOS users, we recommend creating and activating a Python virtual environment to avoid common installation issues and keep dependencies isolated:
+
+```bash
+python3 -m venv mlflow-venv
+source mlflow-venv/bin/activate
+pip install mlflow
+```
+
+Remember to activate your virtual environment (`source mlflow-venv/bin/activate`) each time you open a new terminal before running MLflow commands.
 
 ### Start the MLflow Tracking Server
 
-To start the MLflow tracking server locally, use the following command:
+After activating the virtual environment, start the MLflow tracking server locally, use the following command:
 
 ```bash
 mlflow ui --port 5001
@@ -157,7 +167,7 @@ Official documentation for <i>MLflow.js</i> can be found <a href="https://www.ml
 
 ## Contributing
 
-We welcome contributions to <i>MLflow.js</i>! Please see our [Contributing Guide](/CONTRIBUTING.md) for more details on how to get started.
+We welcome contributions to <i>MLflow.js</i>! Please note that this library is maintained by independent community contributors, not the MLflow core team or Databricks. See our [Contributing Guide](/CONTRIBUTING.md) for more details on how to get started.
 
 <br>
 

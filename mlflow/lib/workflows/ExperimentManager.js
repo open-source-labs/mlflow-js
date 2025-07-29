@@ -38,11 +38,9 @@ class ExperimentManager {
         }
         catch (error) {
             if (error instanceof ApiError) {
-                console.error(`API Error (${error.statusCode}): ${error.message}`);
                 throw error;
             }
             else {
-                console.error('An unexpected error occurred:', error);
                 throw new Error();
             }
         }
@@ -80,11 +78,9 @@ class ExperimentManager {
         }
         catch (error) {
             if (error instanceof ApiError) {
-                console.error(`API Error (${error.statusCode}): ${error.message}`);
                 throw error;
             }
             else {
-                console.error('An unexpected error occurred:', error);
                 throw new Error();
             }
         }
@@ -121,11 +117,9 @@ class ExperimentManager {
         }
         catch (error) {
             if (error instanceof ApiError) {
-                console.error(`API Error (${error.statusCode}): ${error.message}`);
                 throw error;
             }
             else {
-                console.error('An unexpected error occurred:', error);
                 throw new Error();
             }
         }
