@@ -4,6 +4,8 @@
 
 A JavaScript library designed to provide seamless integration with MLflow's REST API. This package offers access to all the essential endpoints for both the MLflow Tracking Server and Model Registry, along with high-level abstraction workflows, enabling efficient management of machine learning experiments and model lifecycle.
 
+Note: MLflow.js is a community-maintained project and is not affiliated with or endorsed by Databricks or the official MLflow maintainers.
+
 # Install
 
 ```bash
