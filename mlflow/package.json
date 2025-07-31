@@ -1,6 +1,6 @@
 {
   "name": "mlflow-js",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "JavaScript library for MLflow",
   "homepage": "https://www.mlflow-js.org/",
   "repository": {
