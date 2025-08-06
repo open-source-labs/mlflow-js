@@ -15,6 +15,10 @@ export async function apiRequest(baseUrl, endpoint, options) {
             'Content-Type': 'application/json',
         },
     };
+    // Add MLflow tracking token if it exists
+    if (process.env.MLFLOW_TRACKING_TOKEN) {
+        fetchOptions.headers['Authorization'] = `Bearer ${process.env.MLFLOW_TRACKING_TOKEN}`;
+    }
     if (body) {
         fetchOptions.body = JSON.stringify(body);
     }
