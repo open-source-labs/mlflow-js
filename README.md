@@ -13,7 +13,7 @@
 
 <i>MLflow.js</i> is an open-source JavaScript library that helps developers track machine learning experiments and manage models with MLflow, providing functionalities for machine learning lifecycle in JavaScript/TypeScript environments.
 
-**Note:** <i>MLflow.js</i> is a community-maintained project and is **not** affiliated with or endorsed by Databricks or the official MLflow maintainers.
+**Note:** <i>MLflow.js</i> is a community-based project and maintained by goodwill.
 
 <br>
 
