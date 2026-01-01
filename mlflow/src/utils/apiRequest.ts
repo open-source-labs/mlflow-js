@@ -2,6 +2,7 @@ interface RequestOptions {
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   body?: Record<string, unknown>;
   params?: Record<string, string>;
+  headers?: Record<string, string>;
 }
 
 interface ApiResponse<T = any> {
@@ -23,12 +24,13 @@ export async function apiRequest<T = any>(
   options: RequestOptions
 ): Promise<ApiResponse<T>> {
   let url = `${baseUrl}/api/2.0/mlflow/${endpoint}`;
-  const { method, body, params } = options;
+  const { method, body, params, headers } = options;
 
   const fetchOptions: RequestInit = {
     method,
     headers: {
       'Content-Type': 'application/json',
+      ...headers,
     },
   };
 
@@ -46,5 +48,4 @@ export async function apiRequest<T = any>(
 
   return { response, data };
 }
-
 
