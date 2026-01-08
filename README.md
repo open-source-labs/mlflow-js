@@ -110,6 +110,8 @@ Here is an example of how to use the <i>mlflow.js</i> library to create an exper
 import Mlflow from 'mlflow-js';
 
 // Initialize the MLflow client
+// If your tracking server requires a token please also set env variable MLFLOW_TRACKING_TOKEN
+// export MLFLOW_TRACKING_TOKEN = "{token}"
 const mlflow = new Mlflow(process.env.MLFLOW_TRACKING_URI);
 
 // Create a new experiment
